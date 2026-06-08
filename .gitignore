@@ -361,3 +361,11 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Visual Studio & byggfiler
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.sln.docstates
