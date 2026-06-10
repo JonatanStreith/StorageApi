@@ -67,12 +67,24 @@ public class ProductsController : ControllerBase
     // POST: api/Product
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Product>> PostProduct(Product product)
+    public async Task<ActionResult<ProductCreateDto>> PostProduct(ProductCreateDto product)
     {
-        _context.Product.Add(product);
+        var createdProduct = new Product()
+        {
+            Name = product.Name,
+            Price = product.Price,
+            Category = product.Category,
+            Shelf = product.Shelf,
+            Count = product.Count,
+            Description = product.Description
+        };
+
+        if(createdProduct== null) return BadRequest();
+
+        _context.Product.Add(createdProduct);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+        return CreatedAtAction("GetProduct", new { id = createdProduct.Id }, createdProduct);
     }
 
     // DELETE: api/Product/5
