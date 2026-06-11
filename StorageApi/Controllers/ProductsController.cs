@@ -36,12 +36,21 @@ public class ProductsController : ControllerBase
     // PUT: api/Product/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutProduct(int? id, Product product)
+    public async Task<IActionResult> PutProduct(int? id, ProductUpdateDto productUpdate)
     {
-        if (id != product.Id)
-        {
-            return BadRequest();
-        }
+
+        if (productUpdate == null) return BadRequest();
+
+        var product = _context.Product.FirstOrDefault(p => p.Id == id);
+
+        if (product == null) return NotFound();
+
+        product.Name = productUpdate.Name;
+        product.Price = productUpdate.Price;
+        product.Category = productUpdate.Category;
+        product.Shelf = productUpdate.Shelf;
+        product.Count = productUpdate.Count;
+        product.Description = productUpdate.Description;
 
         _context.Entry(product).State = EntityState.Modified;
 
